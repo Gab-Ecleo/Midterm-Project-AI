@@ -14,9 +14,11 @@ public class EnemyAI : MonoBehaviour
 	public Transform _targetWaypoint;
 
 	public float _movementRad;
+	public Renderer _playerRender;
 
 	private NavMeshAgent _agent;
 	private bool _isFollowing;
+	private Renderer _objRender;
 
 	#endregion
 
@@ -26,7 +28,8 @@ public class EnemyAI : MonoBehaviour
 	{
 		_agent = GetComponent<NavMeshAgent>();
 		_isFollowing = false;
-
+		_objRender = gameObject.GetComponent<Renderer>();
+		
 		while (true)
 		{
 			yield return StartCoroutine(AIMovement(_waypoint));
@@ -37,7 +40,11 @@ public class EnemyAI : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Player"))
+		{
 			_isFollowing = true;
+			_objRender.material = _playerRender.material;
+		}
+			
 	}
 
 	#endregion
